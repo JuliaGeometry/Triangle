@@ -30,6 +30,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "triangle.h"
+#include "triwrapjulia.h"
 
 /*****************************************************************************/
 /*                                                                           */
@@ -210,7 +211,7 @@ int main()
   /*   produce an edge list (e), a Voronoi diagram (v), and a triangle */
   /*   neighbor list (n).                                              */
 
-  triangulate("pczAevn", &in, &mid, &vorout);
+  triangulate_catch_exit("pczAevn", &in, &mid, &vorout);
 
   printf("Initial triangulation:\n\n");
   report(&mid, 1, 1, 1, 1, 1, 0);

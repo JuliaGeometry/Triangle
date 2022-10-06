@@ -1406,6 +1406,10 @@ REAL area;                                      /* The area of the triangle. */
 /********* Memory allocation and program exit wrappers begin here    *********/
 /**                                                                         **/
 /**                                                                         **/
+#ifdef TRILIBRARY
+
+#include "triwrapjulia.h"
+#else
 
 #ifdef ANSI_DECLARATORS
 void triexit(int status)
@@ -1418,6 +1422,7 @@ int status;
   exit(status);
 }
 
+#endif
 #ifdef ANSI_DECLARATORS
 VOID *trimalloc(int size)
 #else /* not ANSI_DECLARATORS */
@@ -1437,7 +1442,7 @@ int size;
 }
 
 #ifdef ANSI_DECLARATORS
-void trifree(VOID *memptr)
+void trifree(void *memptr)
 #else /* not ANSI_DECLARATORS */
 void trifree(memptr)
 VOID *memptr;

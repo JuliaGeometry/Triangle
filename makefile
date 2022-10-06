@@ -73,7 +73,7 @@ CC = cc
 #
 #   CSWITCHES = -O -DNO_TIMER -DLINUX -I/usr/X11R6/include -L/usr/X11R6/lib
 
-CSWITCHES = -O -DLINUX -I/usr/X11R6/include -L/usr/X11R6/lib
+CSWITCHES = -O -DLINUX -I/usr/X11R6/include -L/usr/X11R6/lib -DREAL=double -DANSI_DECLARATORS
 
 # TRILIBDEFS is a list of definitions used to compile an object code version
 #   of Triangle (triangle.o) to be called by another program.  The file
@@ -86,7 +86,7 @@ CSWITCHES = -O -DLINUX -I/usr/X11R6/include -L/usr/X11R6/lib
 #
 #   TRILIBDEFS = -DTRILIBRARY -DREDUCED -DCDT_ONLY
 
-TRILIBDEFS = -DTRILIBRARY
+TRILIBDEFS = -DTRILIBRARY -DEXTERNAL_TEST 
 
 # RM should be set to the name of your favorite rm (file deletion program).
 
@@ -94,23 +94,27 @@ RM = /bin/rm
 
 # The action starts here.
 
-all: $(BIN)triangle $(BIN)showme
+all: $(BIN)triangle $(BIN)showme 
 
 trilibrary: $(BIN)triangle.o $(BIN)tricall
 
-$(BIN)triangle: $(SRC)triangle.c
+$(BIN)triangle: $(SRC)triangle.c $(SRC)triwrapjulia.h
 	$(CC) $(CSWITCHES) -o $(BIN)triangle $(SRC)triangle.c -lm
 
-$(BIN)tricall: $(BIN)tricall.c $(BIN)triangle.o
+$(BIN)tricall: $(BIN)tricall.c $(BIN)triangle.o $(BIN)triwrapjulia.o 
 	$(CC) $(CSWITCHES) -o $(BIN)tricall $(SRC)tricall.c \
-		$(BIN)triangle.o -lm
+		$(BIN)triangle.o $(BIN)triwrapjulia.o  -lm
 
-$(BIN)triangle.o: $(SRC)triangle.c $(SRC)triangle.h
+$(BIN)triangle.o: $(SRC)triangle.c $(SRC)triangle.h $(SRC)triwrapjulia.h
 	$(CC) $(CSWITCHES) $(TRILIBDEFS) -c -o $(BIN)triangle.o \
 		$(SRC)triangle.c
+
+$(BIN)triwrapjulia.o: $(SRC)triwrapjulia.c $(SRC)triwrapjulia.h
+	$(CC) $(CSWITCHES) $(TRILIBDEFS) -c -o $(BIN)triwrapjulia.o \
+		$(SRC)triwrapjulia.c
 
 $(BIN)showme: $(SRC)showme.c
 	$(CC) $(CSWITCHES) -o $(BIN)showme $(SRC)showme.c -lX11
 
 distclean:
-	$(RM) $(BIN)triangle $(BIN)triangle.o $(BIN)tricall $(BIN)showme
+	$(RM) $(BIN)triangle $(BIN)triangle.o $(BIN)triwrapjulia.o $(BIN)tricall $(BIN)showme 
