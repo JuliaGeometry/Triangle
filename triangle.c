@@ -223,7 +223,7 @@ on mingw32 this needs to be redefined  as `unsigned long long`.
 */
 
 #ifndef ULONG
-#definne ULONG unsigned long
+#define ULONG unsigned long
 #endif
 
 /* If yours is not a Unix system, define the NO_TIMER compiler switch to     */
