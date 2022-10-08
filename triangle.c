@@ -219,7 +219,8 @@
 
 /* 
 The  `ULONG' type must be large enough to hold a pointer. In particular,
-on mingw32 this needs to be redefined  as `unsigned long long`.
+on mingw32 this needs to be redefined  as `unsigned long long`. This brings 
+flexibility to  work around one of the "kludges" mentioned below.
 */
 
 #ifndef ULONG
